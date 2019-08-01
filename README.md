@@ -43,6 +43,30 @@
   目前该项目直接是以单个Activity承载预览、录制、闪光灯、切换镜头、黑白滤镜、手势缩放、SeekBar显示缩放进度等功能,library提供的是aop权限申请库
   
 ## 截图展示
+  初始预览 ：
+    
+  ![image](https://github.com/MannaYang/AudioVideoCodec/blob/master/screenshot/ic_preview.png)
   
+  闪光灯 ：
+    
+  ![image](https://github.com/MannaYang/AudioVideoCodec/blob/master/screenshot/ic_flash.png)
+  
+  滤镜：
+    
+  ![image](https://github.com/MannaYang/AudioVideoCodec/blob/master/screenshot/ic_filter.png)
+  
+  录制中 ：
+    
+  ![image](https://github.com/MannaYang/AudioVideoCodec/blob/master/screenshot/ic_recording.png)
+  
+  后置切换前置 ：
+    
+  ![image](https://github.com/MannaYang/AudioVideoCodec/blob/master/screenshot/ic_switch_camera.png)
+  
+  播放水印视频 ：
+    
+  ![image](https://github.com/MannaYang/AudioVideoCodec/blob/master/screenshot/ic_water_paly.png)
+    
+    
 ## 感谢开源
   https://github.com/ChinaZeng/SurfaceRecodeDemo
