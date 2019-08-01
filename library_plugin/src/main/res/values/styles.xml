@@ -1,0 +1,6 @@
+<resources>
+    <style name="PermissionPluginTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+</resources>

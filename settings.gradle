@@ -1,0 +1,1 @@
+include ':app', ':library_aspectj', ':library_plugin'
