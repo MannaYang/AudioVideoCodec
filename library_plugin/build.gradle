@@ -1,18 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.manna.library_aspectj'
 
-def globalConfig = rootProject.ext
-def version = globalConfig.versions
-def dependency = globalConfig.dependencies
-
 android {
-    compileSdkVersion version.compileSdkVersion
+    compileSdkVersion 28
 
     defaultConfig {
-        minSdkVersion version.minSdkVersion
-        targetSdkVersion version.targetSdkVersion
-        versionCode version.versionCode
-        versionName version.versionName
+        minSdkVersion 18
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -26,5 +22,5 @@ android {
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api dependency.design
+    api "com.android.support:design:28.0.0"
 }
