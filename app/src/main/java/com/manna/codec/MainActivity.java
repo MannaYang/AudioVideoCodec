@@ -7,6 +7,7 @@ import android.hardware.Camera;
 import android.media.MediaMuxer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.manna.codec.record.AudioCapture;
 import com.manna.codec.scale.ScaleGesture;
 import com.manna.codec.surface.CameraSurfaceView;
 import com.manna.codec.utils.AlphaAnimationUtils;
+import com.manna.codec.utils.ByteUtils;
 import com.manna.codec.utils.FileUtils;
 import com.manna.library_plugin.permission.Permission;
 import com.manna.library_plugin.permission.PermissionConstants;
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements MediaMuxerChangeL
     //默认滤镜 -- 原色， 1 -- 表示黑白
     private int filterType = 0;
 
+    private Handler calcDecibel = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -246,6 +249,11 @@ public class MainActivity extends AppCompatActivity implements MediaMuxerChangeL
                     return;
                 }
                 mediaEncodeManager.setPcmSource(audioSource, audioReadSize);
+                //计算分贝的一种方式
+                calcDecibel.postDelayed(() -> {
+                    double dBValue = ByteUtils.calcDecibelValue(audioSource, audioReadSize);
+                    Log.d(TAG, "calcDecibelLevel: 分贝值 = " + dBValue);
+                }, 200);
             });
     }
 
