@@ -24,6 +24,7 @@ public class EglRenderThread extends Thread {
     private int renderMode;
     private int width;
     private int height;
+    private Object object;
 
     public EglRenderThread(Surface surface, EGLContext eglContext, EglSurfaceView.Render surfaceRender,
                            int renderMode, int width, int height) {
@@ -40,12 +41,25 @@ public class EglRenderThread extends Thread {
         super.run();
         isStart = false;
         isStop = false;
+        object = new Object();
         eglManager = new EglManager();
         eglManager.init(surface, eglContext);
 
-        while (!isStop) {
+        while (true) {
+            if (isStop) {
+                release();
+                break;
+            }
             if (isStart) {
-                if (renderMode == GLSurfaceView.RENDERMODE_CONTINUOUSLY) {
+                if (renderMode == GLSurfaceView.RENDERMODE_WHEN_DIRTY) {
+                    synchronized (object) {
+                        try {
+                            object.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (renderMode == GLSurfaceView.RENDERMODE_CONTINUOUSLY) {
                     try {
                         Thread.sleep(1000 / 60);
                     } catch (InterruptedException e) {
@@ -73,12 +87,28 @@ public class EglRenderThread extends Thread {
             eglManager.swapBuffer();
             isStart = true;
         }
-        isStop = true;
+    }
+
+    /**
+     * 释放资源
+     */
+    private void release() {
         eglManager.release();
-        eglManager = null;
+    }
+
+    /**
+     * 重新绘制
+     */
+    public void requestRender() {
+        if (object != null) {
+            synchronized (object) {
+                object.notifyAll();
+            }
+        }
     }
 
     public void stopEglRender() {
         isStop = true;
+        requestRender();
     }
 }

@@ -50,6 +50,12 @@ public class CameraSurfaceView extends EglSurfaceView implements CameraFBORender
         this.textureId = fboTextureId;
     }
 
+    @Override
+    public void onFrameAvailable(SurfaceTexture surfaceTexture) {
+//        requestRender();
+    }
+
+
     public void previewAngle(Context context) {
         int angle = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
         render.resetMatrix();
@@ -61,7 +67,6 @@ public class CameraSurfaceView extends EglSurfaceView implements CameraFBORender
                 } else {
                     render.setAngle(90f, 0f, 0f, 1f);
                 }
-
                 break;
             case Surface.ROTATION_90:
                 if (cameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
@@ -92,7 +97,6 @@ public class CameraSurfaceView extends EglSurfaceView implements CameraFBORender
     public int getTextureId() {
         return textureId;
     }
-
 
     public int getCameraPreviewWidth() {
         return cameraManager.getPreviewWidth();

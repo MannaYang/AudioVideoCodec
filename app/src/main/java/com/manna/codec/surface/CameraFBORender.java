@@ -287,7 +287,7 @@ public class CameraFBORender implements EglSurfaceView.Render, SurfaceTexture.On
 
     @Override
     public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-
+        onSurfaceListener.onFrameAvailable(surfaceTexture);
     }
 
     public void setOnSurfaceListener(OnSurfaceListener onSurfaceListener) {
@@ -296,6 +296,8 @@ public class CameraFBORender implements EglSurfaceView.Render, SurfaceTexture.On
 
     public interface OnSurfaceListener {
         void onSurfaceCreate(SurfaceTexture surfaceTexture, int fboTextureId);
+
+        void onFrameAvailable(SurfaceTexture surfaceTexture);
     }
 
     /***

@@ -61,6 +61,7 @@ public class EglSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         runnable.isStop = true;
+        runnable.requestRender();
         eglThread.isInterrupted();
         surface = null;
         eglContext = null;
@@ -82,11 +83,24 @@ public class EglSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
         public void run() {
             isStart = false;
             isStop = false;
+            object = new Object();
             eglManager = new EglManager();
             eglManager.init(surface, eglContext);
-            while (!isStop) {
+            while (true) {
+                if (isStop) {
+                    release();
+                    break;
+                }
                 if (isStart) {
-                    if (getRenderMode() == GLSurfaceView.RENDERMODE_CONTINUOUSLY) {
+                    if (renderMode == GLSurfaceView.RENDERMODE_WHEN_DIRTY) {
+                        synchronized (object) {
+                            try {
+                                object.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } else if (renderMode == GLSurfaceView.RENDERMODE_CONTINUOUSLY) {
                         try {
                             Thread.sleep(1000 / 60);
                         } catch (InterruptedException e) {
@@ -114,7 +128,6 @@ public class EglSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
                 eglManager.swapBuffer();
                 isStart = true;
             }
-            release();
         }
 
         /**
@@ -122,13 +135,12 @@ public class EglSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
          */
         private void release() {
             eglManager.release();
-            object = null;
         }
 
         /**
          * 重新绘制
          */
-        void requestRender() {
+        public void requestRender() {
             if (object != null) {
                 synchronized (object) {
                     object.notifyAll();
