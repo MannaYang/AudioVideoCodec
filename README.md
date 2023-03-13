@@ -70,9 +70,3 @@
     
 ## 感谢开源
   https://github.com/ChinaZeng/SurfaceRecodeDemo
-  
-## 我的个人新球
-
-  免费加入星球一起讨论项目、研究新技术,共同成长!
-  
-![image](https://github.com/MannaYang/AudioVideoCodec/blob/master/screenshot/xiaomiquan.png)
